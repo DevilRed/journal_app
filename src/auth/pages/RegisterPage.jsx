@@ -9,9 +9,21 @@ const formData = {
   displayName: "Thulio Tony",
 };
 
+// key are the same names as in form
+const formValidations = {
+  email: [(value) => value.includes("@"), "Email must have @"],
+  password: [
+    (value) => value.length >= 6,
+    "Password must have more than 6 characters",
+  ],
+  displayName: [(value) => value.length >= 1, "Name is required"],
+};
+
 export const RegisterPage = () => {
-  const { displayName, email, password, onInputChange, formState } =
-    useForm(formData);
+  const { displayName, email, password, onInputChange, formState } = useForm(
+    formData,
+    formValidations
+  );
 
   const onSubmit = (ev) => {
     ev.preventDefault();
