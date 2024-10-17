@@ -12,7 +12,6 @@ import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch } from "react-redux";
 import {
-  checkingAuthentication,
   startGoogleSignIn,
   startLoginWithEmailPassword,
 } from "../../store/auth/thunks";
@@ -63,6 +62,12 @@ export const LoginPage = () => {
               onChange={onInputChange}
               value={password}
             />
+          </Grid>
+
+          <Grid container display={!!errorMessage ? "" : "none"} sx={{ mt: 1 }}>
+            <Grid item xs={12}>
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
           </Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
