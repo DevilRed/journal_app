@@ -1,5 +1,6 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { firebaseDB } from "../../firebase/config";
+import { addNewEmptyNote, setActiveNote, savingNewNote } from "./journalSlice";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
@@ -14,8 +15,13 @@ export const startNewNote = () => {
     // build path where to save the new document
     // like: uid/journal/notes/document
     const newDoc = doc(collection(firebaseDB, `${uid}/journal/notes/`));
+    dispatch(savingNewNote());
     // insert the new document to firestore
     const docresp = await setDoc(newDoc, newNote);
-    console.log({ newDoc, docresp });
+    // set note id
+    newNote.id = newDoc.id;
+
+    dispatch(addNewEmptyNote(newNote));
+    dispatch(setActiveNote(newNote));
   };
 };
