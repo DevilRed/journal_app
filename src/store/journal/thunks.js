@@ -1,6 +1,12 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { firebaseDB } from "../../firebase/config";
-import { addNewEmptyNote, setActiveNote, savingNewNote } from "./journalSlice";
+import {
+  addNewEmptyNote,
+  setActiveNote,
+  savingNewNote,
+  setNotes,
+} from "./journalSlice";
+import { loadNotes } from "../../helpers/loadNotes";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
@@ -23,5 +29,14 @@ export const startNewNote = () => {
 
     dispatch(addNewEmptyNote(newNote));
     dispatch(setActiveNote(newNote));
+  };
+};
+
+export const startLoadingNotes = () => {
+  return async (dispatch, getState) => {
+    const { uid } = getState().auth;
+    if (!uid) throw new Error("User uid not exist");
+    const notes = await loadNotes(uid);
+    dispatch(setNotes(notes));
   };
 };
