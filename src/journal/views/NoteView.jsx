@@ -3,9 +3,12 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { ImageGallery } from "../components";
 import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setActiveNote } from "../../store/journal";
 
 export const NoteView = () => {
+  const dispatch = useDispatch();
   const { active: note } = useSelector((state) => state.journal);
   const { formState, title, body, date, onInputChange } = useForm(note);
 
@@ -13,6 +16,10 @@ export const NoteView = () => {
     const newDate = new Date(date);
     return newDate.toUTCString();
   }, [date]);
+
+  useEffect(() => {
+    dispatch(setActiveNote(formState));
+  }, [formState]);
 
   return (
     <Grid
