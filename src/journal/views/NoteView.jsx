@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setActiveNote } from "../../store/journal";
+import { setActiveNote, startSavingNote } from "../../store/journal";
 
 export const NoteView = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ export const NoteView = () => {
   useEffect(() => {
     dispatch(setActiveNote(formState));
   }, [formState]);
+
+  const onSaveNote = () => {
+    dispatch(startSavingNote());
+  };
 
   return (
     <Grid
@@ -36,7 +40,7 @@ export const NoteView = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <Button color="primary" sx={{ padding: 2 }}>
+        <Button onClick={onSaveNote} color="primary" sx={{ padding: 2 }}>
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Save
         </Button>
