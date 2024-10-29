@@ -76,6 +76,15 @@ export const startSavingNote = () => {
 export const startUploadingFiles = (files = []) => {
   return async (dispatch) => {
     dispatch(setSaving());
-    await fileUpload(files[0]);
+
+    // upload all files simultaneuosly
+    const fileUploadPromises = [];
+    for (const file of files) {
+      // without await or .then the promise is not fired, just building an array of promises
+      fileUploadPromises.push(fileUpload(file));
+    }
+    // trigger all promises
+    const photoUrls = await Promise.all(fileUploadPromises);
+    console.log(photoUrls);
   };
 };
