@@ -5,6 +5,8 @@ import {
   setActiveNote,
   savingNewNote,
   setNotes,
+  setSaving,
+  updateNote,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers/loadNotes";
 
@@ -43,6 +45,7 @@ export const startLoadingNotes = () => {
 
 export const startSavingNote = () => {
   return async (dispatch, getState) => {
+    dispatch(setSaving());
     const { uid } = getState().auth;
     const { active: note } = getState().journal;
 
@@ -62,6 +65,7 @@ export const startSavingNote = () => {
     try {
       // not updating the note
       await setDoc(docRef, noteForFirestore, { merge: true });
+      dispatch(updateNote(note));
     } catch (error) {
       console.error("Error saving note:", error);
     }
