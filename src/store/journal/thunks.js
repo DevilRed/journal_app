@@ -7,6 +7,7 @@ import {
   setNotes,
   setSaving,
   updateNote,
+  setPhotosToActiveNote,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers/loadNotes";
 import { fileUpload } from "../../helpers/fileUpload";
@@ -85,6 +86,6 @@ export const startUploadingFiles = (files = []) => {
     }
     // trigger all promises
     const photoUrls = await Promise.all(fileUploadPromises);
-    console.log(photoUrls);
+    dispatch(setPhotosToActiveNote(photoUrls));
   };
 };
