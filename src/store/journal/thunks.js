@@ -9,6 +9,7 @@ import {
   updateNote,
 } from "./journalSlice";
 import { loadNotes } from "../../helpers/loadNotes";
+import { fileUpload } from "../../helpers/fileUpload";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
@@ -69,5 +70,12 @@ export const startSavingNote = () => {
     } catch (error) {
       console.error("Error saving note:", error);
     }
+  };
+};
+
+export const startUploadingFiles = (files = []) => {
+  return async (dispatch) => {
+    dispatch(setSaving());
+    await fileUpload(files[0]);
   };
 };

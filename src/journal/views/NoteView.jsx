@@ -6,7 +6,11 @@ import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setActiveNote, startSavingNote } from "../../store/journal";
+import {
+  setActiveNote,
+  startSavingNote,
+  startUploadingFiles,
+} from "../../store/journal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { UploadOutlined } from "@mui/icons-material";
@@ -41,9 +45,8 @@ export const NoteView = () => {
   };
 
   const onFileInputChange = ({ target }) => {
-    // console.log(target.files);
     if (target.files === 0) return;
-    // dispatch(startUploadingFiles(target.files));
+    dispatch(startUploadingFiles(target.files));
   };
 
   return (
@@ -68,6 +71,7 @@ export const NoteView = () => {
           style={{ display: "none" }}
           ref={fileInputRef}
         />
+
         <IconButton
           color="primary"
           disabled={isSaving}
