@@ -10,10 +10,12 @@ import {
   setActiveNote,
   startSavingNote,
   startUploadingFiles,
+  startDeletingNote,
 } from "../../store/journal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { UploadOutlined } from "@mui/icons-material";
+import { DeleteOutline } from "@mui/icons-material";
 
 export const NoteView = () => {
   const dispatch = useDispatch();
@@ -47,6 +49,10 @@ export const NoteView = () => {
   const onFileInputChange = ({ target }) => {
     if (target.files === 0) return;
     dispatch(startUploadingFiles(target.files));
+  };
+
+  const onDelete = () => {
+    dispatch(startDeletingNote());
   };
 
   return (
@@ -112,6 +118,12 @@ export const NoteView = () => {
           value={body}
           onChange={onInputChange}
         />
+      </Grid>
+      <Grid container justifyContent="end">
+        <Button onClick={onDelete} sx={{ mt: 2 }} color="error">
+          Borrar
+          <DeleteOutline />
+        </Button>
       </Grid>
       <ImageGallery images={note.imageUrls} />
     </Grid>
