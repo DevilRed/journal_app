@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore/lite";
+import { collection, deleteDoc, getDocs } from "firebase/firestore/lite";
 import {
   addNewEmptyNote,
   savingNewNote,
@@ -35,5 +35,17 @@ describe("thunks", () => {
         date: expect.any(Number),
       })
     );
+
+    // delete docs from firebase
+    const collectionRef = collection(firebaseDB, `${uid}/journal/notes`);
+    const docs = await getDocs(collectionRef);
+    const deletePromises = [];
+
+    // push doc promises into array
+    // deleteDoc is a promise from firebase
+    docs.forEach((doc) => deletePromises.push(deleteDoc(doc.ref)));
+
+    // run all promises at once
+    await Promise.all(deletePromises);
   });
 });
