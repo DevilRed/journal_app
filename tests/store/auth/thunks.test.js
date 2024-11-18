@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { signInWithGoogle } from "../../../src/firebase/providers";
 import {
   checkingCredentials,
@@ -11,12 +12,12 @@ import {
 import { demoUser } from "../../fixtures/authFixtures";
 
 // mock entire module
-jest.mock("../../../src/firebase/providers");
+vi.mock("../../../src/firebase/providers");
 
 describe("Auth thunks", () => {
   // mock dispatch function to easy expects
-  const dispatch = jest.fn();
-  beforeEach(() => jest.clearAllMocks());
+  const dispatch = vi.fn();
+  beforeEach(() => vi.clearAllMocks());
   it("should trigger checkingCredentials", async () => {
     // give inner dispatch param
     await checkingAuthentication()(dispatch);

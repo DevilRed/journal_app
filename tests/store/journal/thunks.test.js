@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { collection, deleteDoc, getDocs } from "firebase/firestore/lite";
 import {
   addNewEmptyNote,
@@ -7,11 +8,19 @@ import {
 import { startNewNote } from "../../../src/store/journal/thunks";
 import { firebaseDB } from "../../../src/firebase/config";
 
-describe("thunks", () => {
-  const dispatch = jest.fn();
-  const getState = jest.fn();
+require("dotenv").config({
+  path: ".env.testing",
+});
+// mock .env variables is missing
+vi.mock("./src/helpers/getEnvironments", () => ({
+  getEnvironments: () => ({ ...process.env }),
+}));
 
-  beforeEach(() => jest.clearAllMocks());
+describe("thunks", () => {
+  const dispatch = vi.fn();
+  const getState = vi.fn();
+
+  beforeEach(() => vi.clearAllMocks());
 
   it("startNewNote should create a new blank note", async () => {
     const uid = "TEST-UID";
